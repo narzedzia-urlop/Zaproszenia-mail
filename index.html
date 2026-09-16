@@ -41,11 +41,18 @@
             Treść zaproszenia
           </div>
 
+          <!-- TYTUŁ Z WŁASNYM SUWAKIEM WIELKOŚCI -->
           <div class="form-group">
             <label for="invTitle">Tytuł / Nagłówek</label>
             <input type="text" id="invTitle" placeholder="np. Zaproszenie na szkolenie" />
+            <div class="range-row-mini">
+              <span class="range-label-mini">Wielkość tytułu:</span>
+              <input type="range" id="titleFontSize" min="16" max="64" value="32" />
+              <span id="titleFontSizeVal" class="range-val-badge">32px</span>
+            </div>
           </div>
 
+          <!-- TREŚĆ GŁÓWNA Z PASKIEM FORMATOWANIA I SUWAKIEM -->
           <div class="form-group">
             <div class="label-with-tools">
               <label for="invBody">Treść główna</label>
@@ -56,8 +63,13 @@
                 <button type="button" class="fmt-btn" id="btnBullet" title="Dodaj punkt">• Punkt</button>
               </div>
             </div>
-            <textarea id="invBody" rows="10" placeholder="Wpisz treść zaproszenia... (użyj **tekst** aby pogrubić)"></textarea>
-            <div class="fmt-hint">Wskazówka: Możesz pogrubiać słowa używając <code>**pogrubiony tekst**</code></div>
+            <textarea id="invBody" rows="8" placeholder="Wpisz treść zaproszenia... (użyj **tekst** aby pogrubić)"></textarea>
+            <div class="range-row-mini">
+              <span class="range-label-mini">Wielkość treści:</span>
+              <input type="range" id="fontSize" min="12" max="28" value="16" />
+              <span id="fontSizeVal" class="range-val-badge">16px</span>
+            </div>
+            <div class="fmt-hint">Wskazówka: Zaznacz słowa i kliknij <strong>[B] Pogrubienie</strong> lub wpisz <code>**tekst**</code></div>
           </div>
 
           <!-- DATA I MIEJSCE ODDZIELNIE -->
@@ -69,24 +81,6 @@
             <div class="form-group half">
               <label for="invLocation">Miejsce (opcjonalnie)</label>
               <input type="text" id="invLocation" placeholder="np. Hotel Grand Warszawa" />
-            </div>
-          </div>
-
-          <!-- SUWAKI ROZMIARU CZCIONKI -->
-          <div class="form-row">
-            <div class="form-group half">
-              <label for="titleFontSize">Rozmiar tytułu</label>
-              <div class="range-wrap">
-                <input type="range" id="titleFontSize" min="20" max="44" value="30" />
-                <span id="titleFontSizeVal">30px</span>
-              </div>
-            </div>
-            <div class="form-group half">
-              <label for="fontSize">Rozmiar treści</label>
-              <div class="range-wrap">
-                <input type="range" id="fontSize" min="13" max="24" value="16" />
-                <span id="fontSizeVal">16px</span>
-              </div>
             </div>
           </div>
 

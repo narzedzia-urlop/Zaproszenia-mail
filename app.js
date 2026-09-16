@@ -51,7 +51,7 @@ const exportOverlay  = $('exportOverlay');
 const toastSuccess   = $('toastSuccess');
 
 let currentAlign         = 'left';
-let currentTitleFontSize = 30;
+let currentTitleFontSize = 32;
 let currentFontSize      = 16;
 let ctaPlacement         = 'below';
 
@@ -119,7 +119,7 @@ function syncAll() {
   invMetaRow.style.justifyContent = currentAlign === 'center' ? 'center' : (currentAlign === 'right' ? 'flex-end' : 'flex-start');
 
   // Body
-  invBodyDisp.innerHTML     = formatBodyText(invBodyInp.value);
+  invBodyDisp.innerHTML       = formatBodyText(invBodyInp.value);
   invBodyDisp.style.fontSize  = currentFontSize + 'px';
   invBodyDisp.style.textAlign = currentAlign;
 

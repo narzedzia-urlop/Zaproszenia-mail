@@ -1,12 +1,17 @@
 const $ = id => document.getElementById(id);
 
 // --- Inputs ---
-const invTitleInp    = $('invTitle');
-const invBodyInp     = $('invBody');
-const invDateInp     = $('invDate');
-const fontSizeSlider = $('fontSize');
-const fontSizeVal    = $('fontSizeVal');
-const alignBtns      = document.querySelectorAll('.align-btn');
+const invTitleInp         = $('invTitle');
+const invBodyInp          = $('invBody');
+const invDateInp          = $('invDate');
+const invLocationInp      = $('invLocation');
+const titleFontSizeSlider = $('titleFontSize');
+const titleFontSizeVal    = $('titleFontSizeVal');
+const fontSizeSlider      = $('fontSize');
+const fontSizeVal         = $('fontSizeVal');
+const alignBtns           = document.querySelectorAll('.align-btn');
+const btnBold             = $('btnBold');
+const btnBullet           = $('btnBullet');
 
 // --- QR ---
 const qrUrlInp       = $('qrUrl');
@@ -25,8 +30,11 @@ const footerPhoneInp   = $('footerPhone');
 
 // --- Canvas displays ---
 const invTitleDisp      = $('invTitleDisplay');
+const invMetaRow        = $('invMetaRow');
+const invDateItem       = $('invDateItem');
 const invDateDisp       = $('invDateDisplay');
-const invDateRow        = $('invDateRow');
+const invLocationItem   = $('invLocationItem');
+const invLocationDisp   = $('invLocationDisplay');
 const invBodyDisp       = $('invBodyDisplay');
 const footerDeptDisp    = $('footerDeptDisplay');
 const footerCompanyDisp = $('footerCompanyDisplay');
@@ -42,18 +50,42 @@ const btnExport      = $('btnExport');
 const exportOverlay  = $('exportOverlay');
 const toastSuccess   = $('toastSuccess');
 
-let currentAlign    = 'left';
-let currentFontSize = 16;
-let ctaPlacement    = 'below';
+let currentAlign         = 'left';
+let currentTitleFontSize = 30;
+let currentFontSize      = 16;
+let ctaPlacement         = 'below';
 
 // ==========================================================
 //  DEFAULTS
 // ==========================================================
 function applyDefaults() {
   invTitleInp.value     = 'Zaproszenie na Szkolenie: Skuteczna Sprzedaż w Turystyce 2025';
-  invBodyInp.value      = 'Szanowni Państwo,\n\nMamy przyjemność zaprosić Państwa na profesjonalne szkolenie organizowane przez Dział Szkoleń Urlop.pl.\n\nSzkolenie obejmie następujące tematy:\n• Nowoczesne techniki sprzedaży ofert turystycznych\n• Budowanie relacji z klientem\n• Efektywna komunikacja i prezentacja oferty\n• Narzędzia cyfrowe wspierające sprzedaż\n\nSzkolenie poprowadzą doświadczeni trenerzy z wieloletnią praktyką w branży turystycznej.\n\nProsimy o potwierdzenie uczestnictwa do 10 października 2025 r.';
-  invDateInp.value      = '20 października 2025, godz. 10:00 | Hotel Grand Warszawa';
+  invBodyInp.value      = 'Szanowni Państwo,\n\nMamy przyjemność zaprosić Państwa na profesjonalne szkolenie organizowane przez **Dział Szkoleń Urlop.pl**.\n\nSzkolenie obejmie kluczowe tematy:\n• **Nowoczesne techniki sprzedaży** ofert turystycznych\n• **Budowanie relacji** z wymagającym klientem\n• **Efektywna komunikacja** i prezentacja oferty\n• **Narzędzia cyfrowe** wspierające codzienną pracę\n\nSzkolenie poprowadzą doświadczeni trenerzy z wieloletnią praktyką w branży turystycznej.\n\n**Prosimy o potwierdzenie uczestnictwa** do 10 października 2025 r.';
+  invDateInp.value      = '20 października 2025, godz. 10:00';
+  invLocationInp.value  = 'Hotel Grand Warszawa';
   qrUrlInp.value        = 'https://www.urlop.pl/szkolenie/rejestracja';
+}
+
+// ==========================================================
+//  FORMATTING (Markdown to HTML)
+// ==========================================================
+function formatBodyText(raw) {
+  if (!raw) return '';
+  // 1. Escape HTML
+  let escaped = raw
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+
+  // 2. Parse **bold** and <b>...</b>
+  escaped = escaped.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  escaped = escaped.replace(/\*(.*?)\*/g, '<em>$1</em>');
+  escaped = escaped.replace(/&lt;b&gt;(.*?)&lt;\/b&gt;/gi, '<strong>$1</strong>');
+  escaped = escaped.replace(/&lt;strong&gt;(.*?)&lt;\/strong&gt;/gi, '<strong>$1</strong>');
+  escaped = escaped.replace(/&lt;i&gt;(.*?)&lt;\/i&gt;/gi, '<em>$1</em>');
+  escaped = escaped.replace(/&lt;em&gt;(.*?)&lt;\/em&gt;/gi, '<em>$1</em>');
+
+  return escaped;
 }
 
 // ==========================================================
@@ -62,16 +94,33 @@ function applyDefaults() {
 function syncAll() {
   // Title
   invTitleDisp.textContent     = invTitleInp.value;
+  invTitleDisp.style.fontSize  = currentTitleFontSize + 'px';
   invTitleDisp.style.textAlign = currentAlign;
 
-  // Date
+  // Date & Location
   const dateVal = invDateInp.value.trim();
-  invDateRow.style.display = dateVal ? 'flex' : 'none';
-  invDateDisp.textContent  = dateVal;
+  const locVal  = invLocationInp.value.trim();
+
+  if (dateVal) {
+    invDateDisp.textContent = dateVal;
+    invDateItem.style.display = 'inline-flex';
+  } else {
+    invDateItem.style.display = 'none';
+  }
+
+  if (locVal) {
+    invLocationDisp.textContent = locVal;
+    invLocationItem.style.display = 'inline-flex';
+  } else {
+    invLocationItem.style.display = 'none';
+  }
+
+  invMetaRow.style.display = (dateVal || locVal) ? 'flex' : 'none';
+  invMetaRow.style.justifyContent = currentAlign === 'center' ? 'center' : (currentAlign === 'right' ? 'flex-end' : 'flex-start');
 
   // Body
-  invBodyDisp.textContent    = invBodyInp.value;
-  invBodyDisp.style.fontSize = currentFontSize + 'px';
+  invBodyDisp.innerHTML     = formatBodyText(invBodyInp.value);
+  invBodyDisp.style.fontSize  = currentFontSize + 'px';
   invBodyDisp.style.textAlign = currentAlign;
 
   // QR
@@ -115,11 +164,57 @@ function renderQR(canvasEl, value, size) {
 }
 
 // ==========================================================
+//  TOOLBAR ACTIONS
+// ==========================================================
+btnBold.addEventListener('click', () => {
+  wrapTextareaSelection(invBodyInp, '**', '**', 'pogrubiony tekst');
+  syncAll();
+});
+
+btnBullet.addEventListener('click', () => {
+  insertAtTextareaCursor(invBodyInp, '• ');
+  syncAll();
+});
+
+function wrapTextareaSelection(textarea, prefix, suffix, placeholder) {
+  const start = textarea.selectionStart;
+  const end   = textarea.selectionEnd;
+  const val   = textarea.value;
+
+  if (start !== end) {
+    const selected = val.substring(start, end);
+    textarea.value = val.substring(0, start) + prefix + selected + suffix + val.substring(end);
+    textarea.focus();
+    textarea.setSelectionRange(start + prefix.length, end + prefix.length);
+  } else {
+    textarea.value = val.substring(0, start) + prefix + placeholder + suffix + val.substring(end);
+    textarea.focus();
+    textarea.setSelectionRange(start + prefix.length, start + prefix.length + placeholder.length);
+  }
+}
+
+function insertAtTextareaCursor(textarea, text) {
+  const start = textarea.selectionStart;
+  const end   = textarea.selectionEnd;
+  const val   = textarea.value;
+
+  textarea.value = val.substring(0, start) + text + val.substring(end);
+  textarea.focus();
+  textarea.setSelectionRange(start + text.length, start + text.length);
+}
+
+// ==========================================================
 //  WIRE INPUTS
 // ==========================================================
-[invTitleInp, invBodyInp, invDateInp, qrUrlInp,
+[invTitleInp, invBodyInp, invDateInp, invLocationInp, qrUrlInp,
  footerDeptInp, footerCompanyInp, footerAddressInp, footerPhoneInp
 ].forEach(el => el.addEventListener('input', syncAll));
+
+titleFontSizeSlider.addEventListener('input', () => {
+  currentTitleFontSize = parseInt(titleFontSizeSlider.value);
+  titleFontSizeVal.textContent = currentTitleFontSize + 'px';
+  syncAll();
+});
 
 fontSizeSlider.addEventListener('input', () => {
   currentFontSize = parseInt(fontSizeSlider.value);

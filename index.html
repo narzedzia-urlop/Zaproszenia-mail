@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Generator Zaproszeń - urlop.pl</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <!-- QRious QR generator -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+  <!-- html2canvas -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+
+  <!-- HEADER APKI -->
+  <header class="app-header">
+    <div class="logo">
+      <span class="logo-accent">urlop</span><span class="logo-dot">.pl</span>
+      <span class="logo-tag">Generator Zaproszeń</span>
+    </div>
+    <button id="btnExport" class="btn-export">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Eksportuj JPG
+    </button>
+  </header>
+
+  <!-- MAIN -->
+  <main class="layout">
+
+    <!-- LEFT PANEL -->
+    <aside class="panel-left">
+      <div class="panel-inner">
+
+        <!-- TREŚĆ -->
+        <section class="card">
+          <div class="card-header">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            Treść zaproszenia
+          </div>
+
+          <div class="form-group">
+            <label for="invTitle">Tytuł / Nagłówek</label>
+            <input type="text" id="invTitle" placeholder="np. Zaproszenie na szkolenie" />
+          </div>
+
+          <div class="form-group">
+            <label for="invBody">Treść główna</label>
+            <textarea id="invBody" rows="10" placeholder="Wpisz treść zaproszenia..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="invDate">Data i miejsce</label>
+            <input type="text" id="invDate" placeholder="np. 20 listopada 2025, Warszawa" />
+          </div>
+
+          <div class="form-row">
+            <div class="form-group half">
+              <label for="fontSize">Rozmiar tekstu</label>
+              <div class="range-wrap">
+                <input type="range" id="fontSize" min="13" max="24" value="16" />
+                <span id="fontSizeVal">16px</span>
+              </div>
+            </div>
+            <div class="form-group half">
+              <label>Wyrównanie</label>
+              <div class="align-btns">
+                <button class="align-btn active" data-align="left" title="Do lewej">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="18" y2="18"/></svg>
+                </button>
+                <button class="align-btn" data-align="center" title="Wyśrodkuj">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="6" x2="21" y2="6"/><line x1="6" y1="12" x2="18" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+                </button>
+                <button class="align-btn" data-align="right" title="Do prawej">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="6" x2="21" y2="6"/><line x1="9" y1="12" x2="21" y2="12"/><line x1="6" y1="18" x2="21" y2="18"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- KOD QR -->
+        <section class="card">
+          <div class="card-header">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M18 14h.01M14 18h.01M18 18h.01"/></svg>
+            Kod QR
+          </div>
+          <div class="form-group">
+            <label for="qrUrl">Link URL</label>
+            <input type="text" id="qrUrl" placeholder="https://..." />
+          </div>
+          <div class="form-group">
+            <label>Położenie kodu QR</label>
+            <div class="placement-btns">
+              <button class="placement-btn active" data-pos="below" id="placeBelowBtn">Pod treścią</button>
+              <button class="placement-btn" data-pos="footer" id="placeFooterBtn">W stopce</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- STOPKA -->
+        <section class="card">
+          <div class="card-header">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            Dane stopki
+          </div>
+          <div class="form-row">
+            <div class="form-group half">
+              <label for="footerDept">Dział (lewa)</label>
+              <input type="text" id="footerDept" value="Dział Szkoleń Urlop.pl" />
+            </div>
+            <div class="form-group half">
+              <label for="footerCompany">Firma (lewa)</label>
+              <input type="text" id="footerCompany" value="Urlop.pl sp. z o.o." />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="footerAddress">Adres (prawa)</label>
+            <textarea id="footerAddress" rows="2">00-131 Warszawa
+ul. Grzybowska 2 lok. 15</textarea>
+          </div>
+          <div class="form-group">
+            <label for="footerPhone">Telefony (prawa)</label>
+            <input type="text" id="footerPhone" value="tel. 785 002 925 / 785 002 895 / 726 444 260" />
+          </div>
+        </section>
+
+      </div>
+    </aside>
+
+    <!-- PREVIEW -->
+    <div class="preview-area">
+      <div class="preview-topbar">
+        <span class="preview-badge">Podgląd zaproszenia (900px)</span>
+        <div class="preview-dims" id="previewDims">900 x 0 px</div>
+      </div>
+      <div class="preview-wrapper" id="previewWrapper">
+        <div class="preview-scaler" id="previewScaler">
+
+          <!-- === CANVAS 900px === -->
+          <div id="invitationCanvas" class="invitation-canvas">
+
+            <!-- HEADER IMAGE (plik header.png) -->
+            <img class="inv-header-img" src="data:image/png;base64,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" alt="urlop.pl" />
+
+            <!-- GREEN BODY -->
+            <div class="inv-body-area">
+
+              <!-- CONTENT -->
+              <div class="inv-content">
+                <h1 class="inv-title" id="invTitleDisplay"></h1>
+                <div class="inv-date-row" id="invDateRow" style="display:none;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                  <span class="inv-date" id="invDateDisplay"></span>
+                </div>
+                <div class="inv-body" id="invBodyDisplay"></div>
+              </div>
+
+              <!-- QR pod treścią -->
+              <div class="inv-qr-below" id="invQrBelow" style="display:none;">
+                <canvas id="qrCanvasBelow" width="140" height="140"></canvas>
+              </div>
+
+            </div>
+
+            <!-- FOOTER DATA (ciemnozielona) -->
+            <div class="inv-footer">
+              <div class="inv-footer-left">
+                <div class="inv-footer-dept" id="footerDeptDisplay"></div>
+                <div class="inv-footer-company" id="footerCompanyDisplay"></div>
+              </div>
+              <!-- QR w stopce (na środku) -->
+              <div class="inv-qr-footer" id="invQrFooter" style="display:none;">
+                <canvas id="qrCanvasFooter" width="96" height="96"></canvas>
+              </div>
+              <div class="inv-footer-right">
+                <div class="inv-footer-address" id="footerAddressDisplay"></div>
+                <div class="inv-footer-phone" id="footerPhoneDisplay"></div>
+              </div>
+            </div>
+
+          </div><!-- /invitation-canvas -->
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- EXPORT OVERLAY -->
+  <div id="exportOverlay" class="export-overlay hidden">
+    <div class="export-box">
+      <div class="export-spinner"></div>
+      <p>Generowanie JPG...</p>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div id="toastSuccess" class="toast hidden">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4caf50" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+    Zaproszenie zapisane!
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

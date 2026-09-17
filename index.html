@@ -21,10 +21,16 @@
       <span class="logo-accent">urlop</span><span class="logo-dot">.pl</span>
       <span class="logo-tag">Generator Zaproszeń</span>
     </div>
-    <button id="btnExport" class="btn-export">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-      Eksportuj JPG
-    </button>
+    <div class="header-actions">
+      <button id="btnExportMail" class="btn-export-mail" title="Eksportuj sformatowane zaproszenie do wiadomości e-mail z aktywnymi linkami">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        Eksportuj do maila
+      </button>
+      <button id="btnExport" class="btn-export" title="Pobierz zaproszenie jako plik graficzny JPG">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Eksportuj JPG
+      </button>
+    </div>
   </header>
 
   <!-- MAIN -->
@@ -34,17 +40,35 @@
     <aside class="panel-left">
       <div class="panel-inner">
 
-        <!-- TREŚĆ -->
+        <!-- WERSJA KOLORYSTYCZNA -->
+        <section class="card">
+          <div class="card-header">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20"/></svg>
+            Wersja kolorystyczna
+          </div>
+          <div class="form-group">
+            <div class="theme-btns">
+              <button class="theme-btn active" data-theme="green" id="themeGreenBtn">
+                <span class="theme-swatch theme-swatch-green"></span>
+                Zielona
+              </button>
+              <button class="theme-btn" data-theme="white" id="themeWhiteBtn">
+                <span class="theme-swatch theme-swatch-white"></span>
+                Biała
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- FORMATOWANIE TEKSTU -->
         <section class="card">
           <div class="card-header">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-            Treść zaproszenia
+            Formatowanie tekstu
           </div>
 
-          <!-- TYTUŁ Z WŁASNYM SUWAKIEM WIELKOŚCI -->
+          <!-- WIELKOŚĆ TYTUŁU -->
           <div class="form-group">
-            <label for="invTitle">Tytuł / Nagłówek</label>
-            <input type="text" id="invTitle" placeholder="np. Zaproszenie na szkolenie" />
             <div class="range-row-mini">
               <span class="range-label-mini">Wielkość tytułu:</span>
               <input type="range" id="titleFontSize" min="16" max="64" value="32" />
@@ -52,36 +76,30 @@
             </div>
           </div>
 
-          <!-- TREŚĆ GŁÓWNA Z PASKIEM FORMATOWANIA I SUWAKIEM -->
+          <!-- WIELKOŚĆ TREŚCI + FORMATOWANIE -->
           <div class="form-group">
-            <div class="label-with-tools">
-              <label for="invBody">Treść główna</label>
-              <div class="format-toolbar">
-                <button type="button" class="fmt-btn" id="btnBold" title="Pogrub zaznaczony tekst">
-                  <strong>B</strong> Pogrubienie
-                </button>
-                <button type="button" class="fmt-btn" id="btnBullet" title="Dodaj punkt">• Punkt</button>
-              </div>
-            </div>
-            <textarea id="invBody" rows="8" placeholder="Wpisz treść zaproszenia... (użyj **tekst** aby pogrubić)"></textarea>
             <div class="range-row-mini">
               <span class="range-label-mini">Wielkość treści:</span>
               <input type="range" id="fontSize" min="12" max="28" value="16" />
               <span id="fontSizeVal" class="range-val-badge">16px</span>
             </div>
-            <div class="fmt-hint">Wskazówka: Zaznacz słowa i kliknij <strong>[B] Pogrubienie</strong> lub wpisz <code>**tekst**</code></div>
           </div>
 
-          <!-- DATA I MIEJSCE ODDZIELNIE -->
-          <div class="form-row">
-            <div class="form-group half">
-              <label for="invDate">Data (opcjonalnie)</label>
-              <input type="text" id="invDate" placeholder="np. 20 października 2025" />
+          <div class="form-group">
+            <label>Formatowanie</label>
+            <div class="format-toolbar">
+              <button type="button" class="fmt-btn" id="btnBold" title="Pogrub zaznaczony tekst">
+                <strong>B</strong> Pogrubienie
+              </button>
+              <button type="button" class="fmt-btn" id="btnBullet" title="Dodaj punkt">• Punkt</button>
+              <button type="button" class="fmt-btn" id="btnLink" title="Dodaj lub edytuj link">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Link
+              </button>
+              <button type="button" class="fmt-btn" id="btnUnlink" title="Usuń link" style="display: none;">
+                ✕ Usuń link
+              </button>
             </div>
-            <div class="form-group half">
-              <label for="invLocation">Miejsce (opcjonalnie)</label>
-              <input type="text" id="invLocation" placeholder="np. Hotel Grand Warszawa" />
-            </div>
+            <div class="fmt-hint">Wskazówka: Zaznacz tekst na podglądzie i kliknij <strong>[B] Pogrubienie</strong> lub <strong>Link</strong></div>
           </div>
 
           <!-- WYRÓWNANIE -->
@@ -104,22 +122,33 @@
           </div>
         </section>
 
+        <!-- DATA I MIEJSCE -->
+        <section class="card">
+          <div class="card-header">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Data i miejsce
+          </div>
+          <div class="form-row">
+            <div class="form-group half">
+              <label for="invDate">Data (opcjonalnie)</label>
+              <input type="text" id="invDate" placeholder="np. 20 października 2025" />
+            </div>
+            <div class="form-group half">
+              <label for="invLocation">Miejsce (opcjonalnie)</label>
+              <input type="text" id="invLocation" placeholder="np. Hotel Grand Warszawa" />
+            </div>
+          </div>
+        </section>
+
         <!-- KOD QR -->
         <section class="card">
           <div class="card-header">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M18 14h.01M14 18h.01M18 18h.01"/></svg>
-            Kod QR
+            Kod QR (pod treścią)
           </div>
           <div class="form-group">
             <label for="qrUrl">Link URL</label>
             <input type="text" id="qrUrl" placeholder="https://..." />
-          </div>
-          <div class="form-group">
-            <label>Położenie kodu QR</label>
-            <div class="placement-btns">
-              <button class="placement-btn active" data-pos="below" id="placeBelowBtn">Pod treścią</button>
-              <button class="placement-btn" data-pos="footer" id="placeFooterBtn">W stopce (na środku)</button>
-            </div>
           </div>
         </section>
 
@@ -173,7 +202,7 @@ ul. Grzybowska 2 lok. 15</textarea>
 
               <!-- CONTENT -->
               <div class="inv-content">
-                <h1 class="inv-title" id="invTitleDisplay"></h1>
+                <h1 class="inv-title" id="invTitleDisplay" contenteditable="true" data-placeholder="Kliknij aby wpisać tytuł..."></h1>
 
                 <!-- ROW NA DATĘ I MIEJSCE -->
                 <div class="inv-meta-row" id="invMetaRow" style="display:none;">
@@ -187,7 +216,7 @@ ul. Grzybowska 2 lok. 15</textarea>
                   </div>
                 </div>
 
-                <div class="inv-body" id="invBodyDisplay"></div>
+                <div class="inv-body" id="invBodyDisplay" contenteditable="true" data-placeholder="Kliknij aby wpisać treść..."></div>
               </div>
 
               <!-- QR pod treścią -->
@@ -202,10 +231,6 @@ ul. Grzybowska 2 lok. 15</textarea>
               <div class="inv-footer-left">
                 <div class="inv-footer-dept" id="footerDeptDisplay"></div>
                 <div class="inv-footer-company" id="footerCompanyDisplay"></div>
-              </div>
-              <!-- QR w stopce (na środku) -->
-              <div class="inv-qr-footer" id="invQrFooter" style="display:none;">
-                <canvas id="qrCanvasFooter" width="96" height="96"></canvas>
               </div>
               <div class="inv-footer-right">
                 <div class="inv-footer-address" id="footerAddressDisplay"></div>
@@ -228,10 +253,90 @@ ul. Grzybowska 2 lok. 15</textarea>
     </div>
   </div>
 
+  <!-- MODAL LINK -->
+  <div id="linkModal" class="modal-overlay hidden">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+          Dodaj aktywny link
+        </div>
+        <button type="button" class="modal-close" id="linkModalClose">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group" id="linkTextGroup">
+          <label for="linkTextInput">Tekst linku</label>
+          <input type="text" id="linkTextInput" placeholder="np. Kliknij tutaj, aby się zarejestrować" />
+        </div>
+        <div class="form-group">
+          <label for="linkUrlInput">Adres URL (link)</label>
+          <input type="text" id="linkUrlInput" placeholder="https://..." value="https://" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-modal-sec" id="linkModalCancel">Anuluj</button>
+        <button type="button" class="btn-modal-prim" id="linkModalSave">Wstaw link</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL EKSPORT DO MAILA -->
+  <div id="emailModal" class="modal-overlay hidden">
+    <div class="modal-box modal-box-large">
+      <div class="modal-header">
+        <div class="modal-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          Eksportuj do wiadomości e-mail
+        </div>
+        <button type="button" class="modal-close" id="emailModalClose">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-desc">
+          Szablon wiadomości e-mail zawiera wszystkie aktywne linki i osadzone grafiki. Możesz skopiować sformatowaną treść i wkleić ją bezpośrednio do wiadomości w Outlooku / Gmailu lub pobrać plik HTML.
+        </p>
+
+        <div class="email-export-cards">
+          <div class="export-option-card">
+            <div class="option-icon">📋</div>
+            <div class="option-info">
+              <h4>Kopiuj do schowka (Ctrl+V w mailu)</h4>
+              <p>Wklej bezpośrednio do nowej wiadomości w Outlook, Thunderbird, Gmail lub Apple Mail.</p>
+            </div>
+            <button type="button" class="btn-export-action primary" id="btnCopyEmailFormatted">
+              Skopiuj sformatowany mail
+            </button>
+          </div>
+
+          <div class="export-option-card">
+            <div class="option-icon">💾</div>
+            <div class="option-info">
+              <h4>Pobierz plik HTML</h4>
+              <p>Zapisz jako szablon .html do wysyłki przez platformy mailingowe (np. FreshMail, Mailchimp).</p>
+            </div>
+            <button type="button" class="btn-export-action" id="btnDownloadEmailHtml">
+              Pobierz plik .html
+            </button>
+          </div>
+
+          <div class="export-option-card">
+            <div class="option-icon">📄</div>
+            <div class="option-info">
+              <h4>Kopiuj kod źródłowy HTML</h4>
+              <p>Skopiuj pełny kod HTML z osadzonymi stylami inline.</p>
+            </div>
+            <button type="button" class="btn-export-action" id="btnCopyEmailCode">
+              Kopiuj kod HTML
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- TOAST -->
   <div id="toastSuccess" class="toast hidden">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4caf50" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-    Zaproszenie zapisane!
+    <span id="toastMessage">Zaproszenie zapisane!</span>
   </div>
 
   <script src="app.js"></script>
